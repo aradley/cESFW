@@ -1,0 +1,5 @@
+numpy==1.23.5
+scipy==1.10.1
+multiprocess==0.70.14
+pandas==1.5.3
+p_tqdm==1.4.0
