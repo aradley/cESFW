@@ -119,9 +119,9 @@ def Parallel_Calculate_ESS_EPs(path,Use_Cores=-1,EP_Masked_ESSs=True):
             Use_Cores = 1
     print("Cores Used: " + str(Use_Cores))
     ## Perform calculations
-    if __name__ == '__main__':
-        with np.errstate(divide='ignore',invalid='ignore'):
-            Results = p_map(partial(Calculate_ESS_EPs,Sample_Cardinality=Sample_Cardinality,Feature_Cardinality=Feature_Cardinality,Minority_State_Masses=Minority_State_Masses), Feature_Inds, num_cpus=Use_Cores)
+    #if __name__ == '__main__':
+    with np.errstate(divide='ignore',invalid='ignore'):
+        Results = p_map(partial(Calculate_ESS_EPs,Sample_Cardinality=Sample_Cardinality,Feature_Cardinality=Feature_Cardinality,Minority_State_Masses=Minority_State_Masses), Feature_Inds, num_cpus=Use_Cores)
     ## Extract results
     Results = np.asarray(Results)
     ESSs = Results[:,0]
