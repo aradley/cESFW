@@ -144,8 +144,8 @@ def Parallel_Calculate_ESS_EPs(path,Use_Cores=-1,EP_Masked_ESSs=True):
     if EP_Masked_ESSs != True:
         return ESSs, EPs
     if EP_Masked_ESSs == True:
-        EPs[EPs < 0] = 0
-        return ESSs * EPs
+        ESSs[EPs < 0] = 0
+        return ESSs
 
 
 ### Calculate ESSs and EPs
@@ -564,7 +564,7 @@ def Calculate_Individual_ESS_EPs(Fixed_Feature,path,EP_Masked_ESSs=True):
     #Average_Feature_Divergence = np.mean(EPs[Informative_Genes])
     if EP_Masked_ESSs != True:
         return ESSs, Saved_EPs
-    ESSs[Saved_EPs==0] = 0
+    ESSs[Saved_EPs < 0] = 0
     return ESSs
 
 
