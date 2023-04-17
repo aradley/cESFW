@@ -360,10 +360,8 @@ def Calculate_Individual_ESS_EPs(Fixed_Feature,path,EP_Masked_ESSs=True):
     Scaled_Matrix_Non_Zero_Values = np.load(path + "Scaled_Matrix_Non_Zero_Values.npy")
     ###
     #print(Feature_Ind)
-    if EP_Masked_ESSs != True:
-        Results = []
-    Saved_EPs = np.zeros(Minority_State_Masses.shape[0])
-    ESSs = np.zeros(Minority_State_Masses.shape[0])
+    Saved_EPs = np.zeros((6,Minority_State_Masses.shape[0]))
+    ESSs = np.zeros((6,Minority_State_Masses.shape[0]))
     #
     Fixed_Feature_Permutable_Cardinality = np.sum(Fixed_Feature)
     Fixed_Feature_Non_Zero_Values = Fixed_Feature[Scaled_Matrix_Non_Zero_Inds[0]]
@@ -565,9 +563,7 @@ def Calculate_Individual_ESS_EPs(Fixed_Feature,path,EP_Masked_ESSs=True):
     # Get feature weights via average feature divergence
     #Average_Feature_Divergence = np.mean(EPs[Informative_Genes])
     if EP_Masked_ESSs != True:
-        Results.append(ESSs)
-        Results.append(Saved_EPs)
-        return Results
+        return ESSs, Saved_EPs
     ESSs[Saved_EPs==0] = 0
     return ESSs
 
