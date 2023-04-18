@@ -36,7 +36,7 @@ from p_tqdm import p_map
 # out to use cESFW, but will provide little benifit computationally.
 
 ### This function converts a scaled matrix into a computationally efficient object.
-## path: A string path pre-designated folder to deposit the computationally efficient object. E.g. "/mnt/c/Users/arthu/Test_Folder/"
+## path: A string path pre-designated folder to deposit the computationally efficient objects. E.g. "/mnt/c/Users/arthu/Test_Folder/"
 ## Scaled_Matrix: The high dimensional DataFrame whose features have been scaled to values between 0 and 1. Format must be a Pandas DataFrame.
 ## Min_Minority_State_Cardinality: The minimum value of the total minority state mass that a feature contains before it will be automatically
 # removed from the data, and hence analysis.
@@ -401,7 +401,7 @@ def Calculate_Individual_ESS_EPs(Fixed_Feature,path,EP_Masked_ESSs=True):
     DPC_independent = (Max_Permuation_Entropies)/Max_Num_Cell_Divergences
     # Deduct the observed average divergence per cell from average divergence per cell in the maximum entorpy arrangment.
     EPs = DPC-DPC_independent
-    EPs[EPs < 0] = 0
+    #EPs[EPs < 0] = 0
     Saved_EPs[0,Higher_Minority_Cardinality_Inds[Sort_Into_Inds]] = Saved_EPs[0,Higher_Minority_Cardinality_Inds[Sort_Into_Inds]] + EPs
     ESSs[0,Higher_Minority_Cardinality_Inds[Sort_Into_Inds]] = Sort_Gains * Sort_Weights
     ### Error scenario (4), SD = -1, RF < QF (cluster is RF) ###Sort_Out_Of_Inds
@@ -422,7 +422,7 @@ def Calculate_Individual_ESS_EPs(Fixed_Feature,path,EP_Masked_ESSs=True):
     DPC_independent = (Max_Permuation_Entropies)/Max_Num_Cell_Divergences
     # Deduct the observed average divergence per cell from average divergence per cell in the maximum entorpy arrangment.
     EPs = DPC-DPC_independent
-    EPs[EPs < 0] = 0
+    #EPs[EPs < 0] = 0
     Saved_EPs[1,Higher_Minority_Cardinality_Inds[Sort_Out_Of_Inds]] = Saved_EPs[1,Higher_Minority_Cardinality_Inds[Sort_Out_Of_Inds]] + EPs
     ESSs[1,Higher_Minority_Cardinality_Inds[Sort_Out_Of_Inds]] = Sort_Gains * Sort_Weights
     ### Error scenario (8), SD = -1, RF < QF (cluster is QF) ###
@@ -452,7 +452,7 @@ def Calculate_Individual_ESS_EPs(Fixed_Feature,path,EP_Masked_ESSs=True):
     DPC_independent = (Max_Permuation_Entropies)/Max_Num_Cell_Divergences
     # Deduct the observed average divergence per cell from average divergence per cell in the maximum entorpy arrangment.
     EPs = DPC-DPC_independent
-    EPs[EPs < 0] = 0
+    #EPs[EPs < 0] = 0
     Saved_EPs[2,Lower_Minority_Cardinality_Inds[Sort_Out_Of_Inds]] = Saved_EPs[2,Lower_Minority_Cardinality_Inds[Sort_Out_Of_Inds]] + EPs
     ESSs[2,Lower_Minority_Cardinality_Inds[Sort_Out_Of_Inds]] = Sort_Gains * Sort_Weights
     # Identify if the features will have smaller or larger minority state cardinalities than the cluster labels.
@@ -490,7 +490,7 @@ def Calculate_Individual_ESS_EPs(Fixed_Feature,path,EP_Masked_ESSs=True):
     DPC_independent = (Max_Permuation_Entropies)/Max_Num_Cell_Divergences
     # Deduct the observed average divergence per cell from average divergence per cell in the maximum entorpy arrangment.
     EPs = DPC-DPC_independent
-    EPs[EPs < 0] = 0
+    #EPs[EPs < 0] = 0
     Saved_EPs[3,Lower_Minority_Cardinality_Inds[Sort_Into_Inds]] = Saved_EPs[3,Lower_Minority_Cardinality_Inds[Sort_Into_Inds]] + EPs
     ESSs[3,Lower_Minority_Cardinality_Inds[Sort_Into_Inds]] = Sort_Gains * Sort_Weights
     # Extract the group 1 and group 2 cardinalities (cluster is RF).
@@ -518,7 +518,7 @@ def Calculate_Individual_ESS_EPs(Fixed_Feature,path,EP_Masked_ESSs=True):
     DPC_independent = (Max_Permuation_Entropies)/Max_Num_Cell_Divergences
     # Deduct the observed average divergence per cell from average divergence per cell in the maximum entorpy arrangment.
     EPs = DPC-DPC_independent
-    EPs[EPs < 0] = 0
+    #EPs[EPs < 0] = 0
     Saved_EPs[4,Higher_Minority_Cardinality_Inds[Sort_Into_Inds]] = Saved_EPs[4,Higher_Minority_Cardinality_Inds[Sort_Into_Inds]] + EPs
     ESSs[4,Higher_Minority_Cardinality_Inds[Sort_Into_Inds]] = Sort_Gains * Sort_Weights
     ###
@@ -547,21 +547,18 @@ def Calculate_Individual_ESS_EPs(Fixed_Feature,path,EP_Masked_ESSs=True):
     DPC_independent = (Max_Permuation_Entropies)/Max_Num_Cell_Divergences
     # Deduct the observed average divergence per cell from average divergence per cell in the maximum entorpy arrangment.
     EPs = DPC-DPC_independent
-    EPs[EPs < 0] = 0
+    #EPs[EPs < 0] = 0
     Saved_EPs[5,Lower_Minority_Cardinality_Inds[Sort_Into_Inds]] = Saved_EPs[5,Lower_Minority_Cardinality_Inds[Sort_Into_Inds]] + EPs
     ESSs[5,Lower_Minority_Cardinality_Inds[Sort_Into_Inds]] = Sort_Gains * Sort_Weights
-    # Combine local and global EPs
-    #EPs = Saved_EPs
     # Null/Ignore points that aren't usable.
     Saved_EPs[np.isinf(Saved_EPs)] = 0
     Saved_EPs[np.isnan(Saved_EPs)] = 0
     #
-    Saved_EPs = np.max(Saved_EPs,axis=0)
+    Negative_EPs = np.where(Saved_EPs.min(axis=0) < 0)[0]
+    Saved_EPs = np.max(np.absolute(Saved_EPs),axis=0)
+    Saved_EPs[Negative_EPs] = Saved_EPs[Negative_EPs] * -1
     ESSs = np.max(ESSs,axis=0)
-    # Features with EPs > 0 provide evidence to switch expression states
-    #Informative_Genes = np.where((EPs > 0))[0]
-    # Get feature weights via average feature divergence
-    #Average_Feature_Divergence = np.mean(EPs[Informative_Genes])
+    #
     if EP_Masked_ESSs != True:
         return ESSs, Saved_EPs
     ESSs[Saved_EPs < 0] = 0
