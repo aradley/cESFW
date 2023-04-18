@@ -225,7 +225,7 @@ def Calculate_ESS_EPs(Feature_Ind,Sample_Cardinality,Feature_Cardinality,Minorit
     EPs = DPC-DPC_independent
     #EPs[EPs < 0] = 0
     Saved_EPs[0,Higher_Minority_Cardinality_Inds[Sort_Into_Inds]] = EPs
-    ESSs[0,Higher_Minority_Cardinality_Inds[Sort_Into_Inds]] = Sort_Gains * Sort_Weights
+    ESSs[0,Higher_Minority_Cardinality_Inds[Sort_Into_Inds]] = (Sort_Gains * Sort_Weights * Split_Direction)
     ### Error scenario (4), SD = -1, RF < QF (Fixed Feature is RF) ###
     # Because cluster is RF again, we can carry on variables from previous calculations and
     # continue at the point where the SD is changed to -1.
@@ -246,7 +246,7 @@ def Calculate_ESS_EPs(Feature_Ind,Sample_Cardinality,Feature_Cardinality,Minorit
     EPs = DPC-DPC_independent
     #EPs[EPs < 0] = 0
     Saved_EPs[1,Higher_Minority_Cardinality_Inds[Sort_Out_Of_Inds]] = EPs
-    ESSs[1,Higher_Minority_Cardinality_Inds[Sort_Out_Of_Inds]] = Sort_Gains * Sort_Weights
+    ESSs[1,Higher_Minority_Cardinality_Inds[Sort_Out_Of_Inds]] = (Sort_Gains * Sort_Weights * Split_Direction)
     ##### False negative error scenarios #####
     Minority_Group_Cardinality = Fixed_Feature_Permutable_Cardinality.copy()
     Majority_Group_Cardinality = Sample_Cardinality - Minority_Group_Cardinality
@@ -274,7 +274,7 @@ def Calculate_ESS_EPs(Feature_Ind,Sample_Cardinality,Feature_Cardinality,Minorit
     EPs = DPC-DPC_independent
     #EPs[EPs < 0] = 0
     Saved_EPs[2,Higher_Minority_Cardinality_Inds[Sort_Into_Inds]] = EPs
-    ESSs[2,Higher_Minority_Cardinality_Inds[Sort_Into_Inds]] = Sort_Gains * Sort_Weights
+    ESSs[2,Higher_Minority_Cardinality_Inds[Sort_Into_Inds]] = (Sort_Gains * Sort_Weights * Split_Direction)
     # Null/Ignore points that are not applicable due to being boundary points and hence would be equal to 0.
     Saved_EPs[np.isinf(Saved_EPs)] = 0
     Saved_EPs[np.isnan(Saved_EPs)] = 0
@@ -284,7 +284,10 @@ def Calculate_ESS_EPs(Feature_Ind,Sample_Cardinality,Feature_Cardinality,Minorit
     Negative_EPs = np.where(Saved_EPs.min(axis=0) < 0)[0]
     Saved_EPs = np.max(np.absolute(Saved_EPs),axis=0)
     Saved_EPs[Negative_EPs] = Saved_EPs[Negative_EPs] * -1
-    ESSs = np.max(ESSs,axis=0)
+    #
+    Negative_ESSs = np.where(ESSs.min(axis=0) < 0)[0]
+    ESSs = np.max(np.absolute(ESSs),axis=0)
+    ESSs[Negative_ESSs] = ESSs[Negative_ESSs] * -1
     #
     Results.append(ESSs)
     Results.append(Saved_EPs)
@@ -403,7 +406,7 @@ def Calculate_Individual_ESS_EPs(Fixed_Feature,path,EP_Masked_ESSs=True):
     EPs = DPC-DPC_independent
     #EPs[EPs < 0] = 0
     Saved_EPs[0,Higher_Minority_Cardinality_Inds[Sort_Into_Inds]] = Saved_EPs[0,Higher_Minority_Cardinality_Inds[Sort_Into_Inds]] + EPs
-    ESSs[0,Higher_Minority_Cardinality_Inds[Sort_Into_Inds]] = Sort_Gains * Sort_Weights
+    ESSs[0,Higher_Minority_Cardinality_Inds[Sort_Into_Inds]] = (Sort_Gains * Sort_Weights * Split_Direction)
     ### Error scenario (4), SD = -1, RF < QF (cluster is RF) ###Sort_Out_Of_Inds
     # Because cluster is RF again, we can carry on variables from previous calculations and
     # continue at the point where the SD is changed to -1.
@@ -424,7 +427,7 @@ def Calculate_Individual_ESS_EPs(Fixed_Feature,path,EP_Masked_ESSs=True):
     EPs = DPC-DPC_independent
     #EPs[EPs < 0] = 0
     Saved_EPs[1,Higher_Minority_Cardinality_Inds[Sort_Out_Of_Inds]] = Saved_EPs[1,Higher_Minority_Cardinality_Inds[Sort_Out_Of_Inds]] + EPs
-    ESSs[1,Higher_Minority_Cardinality_Inds[Sort_Out_Of_Inds]] = Sort_Gains * Sort_Weights
+    ESSs[1,Higher_Minority_Cardinality_Inds[Sort_Out_Of_Inds]] = (Sort_Gains * Sort_Weights * Split_Direction)
     ### Error scenario (8), SD = -1, RF < QF (cluster is QF) ###
     # Extract the group 1 and group 2 cardinalities (cluster is QF).
     Minority_Group_Cardinality = Minority_State_Masses[Lower_Minority_Cardinality_Inds]
@@ -454,7 +457,7 @@ def Calculate_Individual_ESS_EPs(Fixed_Feature,path,EP_Masked_ESSs=True):
     EPs = DPC-DPC_independent
     #EPs[EPs < 0] = 0
     Saved_EPs[2,Lower_Minority_Cardinality_Inds[Sort_Out_Of_Inds]] = Saved_EPs[2,Lower_Minority_Cardinality_Inds[Sort_Out_Of_Inds]] + EPs
-    ESSs[2,Lower_Minority_Cardinality_Inds[Sort_Out_Of_Inds]] = Sort_Gains * Sort_Weights
+    ESSs[2,Lower_Minority_Cardinality_Inds[Sort_Out_Of_Inds]] = (Sort_Gains * Sort_Weights * Split_Direction)
     # Identify if the features will have smaller or larger minority state cardinalities than the cluster labels.
     Lower_Minority_Cardinality_Inds = np.where(Minority_State_Masses < Fixed_Feature_Permutable_Cardinality)[0]
     Higher_Minority_Cardinality_Inds = np.where(Minority_State_Masses >= Fixed_Feature_Permutable_Cardinality)[0]
@@ -492,7 +495,7 @@ def Calculate_Individual_ESS_EPs(Fixed_Feature,path,EP_Masked_ESSs=True):
     EPs = DPC-DPC_independent
     #EPs[EPs < 0] = 0
     Saved_EPs[3,Lower_Minority_Cardinality_Inds[Sort_Into_Inds]] = Saved_EPs[3,Lower_Minority_Cardinality_Inds[Sort_Into_Inds]] + EPs
-    ESSs[3,Lower_Minority_Cardinality_Inds[Sort_Into_Inds]] = Sort_Gains * Sort_Weights
+    ESSs[3,Lower_Minority_Cardinality_Inds[Sort_Into_Inds]] = (Sort_Gains * Sort_Weights * Split_Direction)
     # Extract the group 1 and group 2 cardinalities (cluster is RF).
     Minority_Group_Cardinality = Fixed_Feature_Permutable_Cardinality
     Majority_Group_Cardinality = Sample_Cardinality - Minority_Group_Cardinality
@@ -520,7 +523,7 @@ def Calculate_Individual_ESS_EPs(Fixed_Feature,path,EP_Masked_ESSs=True):
     EPs = DPC-DPC_independent
     #EPs[EPs < 0] = 0
     Saved_EPs[4,Higher_Minority_Cardinality_Inds[Sort_Into_Inds]] = Saved_EPs[4,Higher_Minority_Cardinality_Inds[Sort_Into_Inds]] + EPs
-    ESSs[4,Higher_Minority_Cardinality_Inds[Sort_Into_Inds]] = Sort_Gains * Sort_Weights
+    ESSs[4,Higher_Minority_Cardinality_Inds[Sort_Into_Inds]] = (Sort_Gains * Sort_Weights * Split_Direction)
     ###
     Minority_Group_Cardinality = Minority_State_Masses[Lower_Minority_Cardinality_Inds]
     Majority_Group_Cardinality = Sample_Cardinality - Minority_State_Masses[Lower_Minority_Cardinality_Inds]
@@ -549,7 +552,7 @@ def Calculate_Individual_ESS_EPs(Fixed_Feature,path,EP_Masked_ESSs=True):
     EPs = DPC-DPC_independent
     #EPs[EPs < 0] = 0
     Saved_EPs[5,Lower_Minority_Cardinality_Inds[Sort_Into_Inds]] = Saved_EPs[5,Lower_Minority_Cardinality_Inds[Sort_Into_Inds]] + EPs
-    ESSs[5,Lower_Minority_Cardinality_Inds[Sort_Into_Inds]] = Sort_Gains * Sort_Weights
+    ESSs[5,Lower_Minority_Cardinality_Inds[Sort_Into_Inds]] = (Sort_Gains * Sort_Weights * Split_Direction)
     # Null/Ignore points that aren't usable.
     Saved_EPs[np.isinf(Saved_EPs)] = 0
     Saved_EPs[np.isnan(Saved_EPs)] = 0
@@ -557,7 +560,10 @@ def Calculate_Individual_ESS_EPs(Fixed_Feature,path,EP_Masked_ESSs=True):
     Negative_EPs = np.where(Saved_EPs.min(axis=0) < 0)[0]
     Saved_EPs = np.max(np.absolute(Saved_EPs),axis=0)
     Saved_EPs[Negative_EPs] = Saved_EPs[Negative_EPs] * -1
-    ESSs = np.max(ESSs,axis=0)
+    #
+    Negative_ESSs = np.where(ESSs.min(axis=0) < 0)[0]
+    ESSs = np.max(np.absolute(ESSs),axis=0)
+    ESSs[Negative_ESSs] = ESSs[Negative_ESSs] * -1
     #
     if EP_Masked_ESSs != True:
         return ESSs, Saved_EPs
