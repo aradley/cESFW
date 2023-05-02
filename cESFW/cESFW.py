@@ -99,7 +99,7 @@ def Create_ESFW_Objects(path, Scaled_Matrix, Min_Minority_State_Cardinality = 10
 # Default is True, and leads to a single matrix being output by the function. If not True, a seperate ESS and EP matrix are output
 # from the function.
 
-def Parallel_Calculate_ESS_EPs(path,Use_Cores=-1,EP_Masked_ESSs=True):
+def Parallel_Calculate_ESS_EPs(path,Use_Cores=-1,EP_Masked_ESSs=False):
     ## Load compute efficient cESFW objects.
     Minority_State_Masses = np.load(path + "Minority_State_Masses.npy")
     Sample_Cardinality = np.load(path + "Sample_Cardinality.npy")
@@ -354,7 +354,7 @@ def Calc_RG_Entropies(x,Group1_Cardinality,Group2_Cardinality,Minority_State_Mas
 # a single feature as it's Fixed_Feature input, and outputs the ESS and EP values for that feature against every other feature in the
 # scaled matrix provided in the "path" varible.
 
-def Calculate_Individual_ESS_EPs(Fixed_Feature,path,EP_Masked_ESSs=True):
+def Calculate_Individual_ESS_EPs(Fixed_Feature,path,EP_Masked_ESSs=False):
     ### Load ESFW objects
     Minority_State_Masses = np.load(path + "Minority_State_Masses.npy")
     Sample_Cardinality = np.load(path + "Sample_Cardinality.npy")
