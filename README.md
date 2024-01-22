@@ -7,6 +7,8 @@ The theory underpinning cESFW if outlined in the following publications:
 
 [Branching topology of the human embryo transcriptome revealed by entropy sort feature weighting](https://www.biorxiv.org/content/10.1101/2023.10.12.562031v2)
 
+### Example workflows
+
 To find example workflows/vignettes for using cESFW, please go to our accompanying [cESFW_Embryo_Topology_Paper](https://github.com/aradley/cESFW_Embryo_Topology_Paper/tree/main) repository.
 
 ### Installation
