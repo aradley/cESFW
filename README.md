@@ -2,6 +2,7 @@
 cESFW is a feature correlation software based on the principles of Entropy Sorting. 
 
 The theory underpinning cESFW if outlined in the following publications:
+
 [Entropy sorting of single-cell RNA sequencing data reveals the inner cell mass in the human pre-implantation embryo](https://www.cell.com/stem-cell-reports/fulltext/S2213-6711(22)00456-8?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS2213671122004568%3Fshowall%3Dtrue)
 
 [Branching topology of the human embryo transcriptome revealed by entropy sort feature weighting](https://www.biorxiv.org/content/10.1101/2023.10.12.562031v2)
