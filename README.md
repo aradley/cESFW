@@ -7,9 +7,18 @@ The theory underpinning cESFW if outlined in the following publications:
 
 [Branching topology of the human embryo transcriptome revealed by entropy sort feature weighting](https://www.biorxiv.org/content/10.1101/2023.10.12.562031v2)
 
+In [Branching topology of the human embryo transcriptome revealed by entropy sort feature weighting](https://www.biorxiv.org/content/10.1101/2023.10.12.562031v2), cESFW is used as part of a feature selection workflow to identify genes that are informative of cellular identity in single cell RNA sequeencing (scRNA-seq) data.
+
+## Usuage
+In [Branching topology of the human embryo transcriptome revealed by entropy sort feature weighting](https://www.biorxiv.org/content/10.1101/2023.10.12.562031v2) we provide details for usage of cESFW.
+
+The cESFW algorithm takes a 2D matrix as an input where the rows are samples and the columns are features. For scRNA-seq, the rows are cells and the columns are genes. Each feature in the 2D matrix should be scaled so that the maximum value is 1 and the minimum value is 0.
+
+cESFW will then output an Entropy Sort Score (ESS) pairwise correlation matrix, and an Error Potential (EP) pairwise correlation significance matrix.
+
 ### Example workflows
 
-To find example workflows/vignettes for using cESFW, please go to our accompanying [cESFW_Embryo_Topology_Paper](https://github.com/aradley/cESFW_Embryo_Topology_Paper/tree/main) repository.
+To find example workflows/vignettes for using cESFW as a feature selection algorithm, please go to our accompanying [cESFW_Embryo_Topology_Paper](https://github.com/aradley/cESFW_Embryo_Topology_Paper/tree/main) repository.
 
 ### Installation
 1. Retreive the ripository with: `git clone https://github.com/aradley/cESFW.git`
