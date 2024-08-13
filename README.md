@@ -5,12 +5,12 @@ The theory underpinning cESFW is outlined in the following publications:
 
 [Entropy sorting of single-cell RNA sequencing data reveals the inner cell mass in the human pre-implantation embryo](https://www.cell.com/stem-cell-reports/fulltext/S2213-6711(22)00456-8?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS2213671122004568%3Fshowall%3Dtrue)
 
-[Branching topology of the human embryo transcriptome revealed by entropy sort feature weighting](https://www.biorxiv.org/content/10.1101/2023.10.12.562031v2)
+[Branching topology of the human embryo transcriptome revealed by entropy sort feature weighting](https://journals.biologists.com/dev/article/151/11/dev202832/352632/Branching-topology-of-the-human-embryo)
 
-In [Branching topology of the human embryo transcriptome revealed by entropy sort feature weighting](https://www.biorxiv.org/content/10.1101/2023.10.12.562031v2), cESFW is used as part of a feature selection workflow to identify genes that are informative of cellular identity in single cell RNA sequeencing (scRNA-seq) data.
+In [Branching topology of the human embryo transcriptome revealed by entropy sort feature weighting](https://journals.biologists.com/dev/article/151/11/dev202832/352632/Branching-topology-of-the-human-embryo), cESFW is used as part of a feature selection workflow to identify genes that are informative of cellular identity in single cell RNA sequeencing (scRNA-seq) data.
 
 ## Usuage
-In [Branching topology of the human embryo transcriptome revealed by entropy sort feature weighting](https://www.biorxiv.org/content/10.1101/2023.10.12.562031v2) we provide details for usage of cESFW.
+In [Branching topology of the human embryo transcriptome revealed by entropy sort feature weighting](https://journals.biologists.com/dev/article/151/11/dev202832/352632/Branching-topology-of-the-human-embryo) we provide details for usage of cESFW.
 
 The cESFW algorithm takes a 2D matrix as an input where the rows are samples and the columns are features. For scRNA-seq, the rows are cells and the columns are genes. Each feature in the 2D matrix should be scaled so that the maximum value is 1 and the minimum value is 0.
 
